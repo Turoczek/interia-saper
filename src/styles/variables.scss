@@ -1,0 +1,30 @@
+:root {
+  --color-bg: #f0f2f5;
+  --color-border: #9aa0a8;
+  --color-text: #222222;
+
+  --color-cell-hidden: #d7dbe0;
+  --color-cell-hidden-hover: #c9ced6;
+  --color-cell-revealed: #eceff2;
+  --color-cell-flag: #e0a800;
+  --color-cell-mine: #d33b2c;
+
+  --color-win: #1c7a30;
+  --color-lose: #c62828;
+
+  --color-digit-1: #1857c4;
+  --color-digit-2: #1c7a30;
+  --color-digit-3: #c62828;
+  --color-digit-4: #4a2ea0;
+  --color-digit-5: #8a1f2d;
+  --color-digit-6: #157b7b;
+  --color-digit-7: #1a1a1a;
+  --color-digit-8: #5b6470;
+
+  --space-sm: 8px;
+  --space-md: 16px;
+
+  --size-cell: 32px;
+  --radius: 4px;
+  --font-size-base: 16px;
+}
