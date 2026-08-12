@@ -34,7 +34,13 @@
 .status-message {
   color: var(--color-text);
 
+  &--success {
+    color: var(--color-win);
+    font-weight: bold;
+  }
+
   &--error {
     color: var(--color-lose);
+    font-weight: bold;
   }
 }

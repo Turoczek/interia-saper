@@ -5,6 +5,16 @@ import { createBoard, revealCell, toggleFlag, type Board, type Level } from './l
 import { chordReveal } from './logic/chord'
 import './App.scss'
 
+const countRemainingMines = (board: Board): number => {
+  let mines = 0
+  let flags = 0
+  for (const cell of board.cells) {
+    if (cell.mine) mines++
+    if (cell.flagged) flags++
+  }
+  return mines - flags
+}
+
 function App() {
   const levelsState = useLevels()
   const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null)
@@ -87,8 +97,21 @@ function App() {
       {board && (
         <>
           <p className="status-message" role="status">
-            Stan: {board.state}
+            Pozostałe miny: {countRemainingMines(board)}
           </p>
+
+          {board.state === 'won' && (
+            <p className="status-message status-message--success" role="status">
+              Wygrana!
+            </p>
+          )}
+
+          {board.state === 'lost' && (
+            <p className="status-message status-message--error" role="alert">
+              Przegrana!
+            </p>
+          )}
+
           <BoardView
             board={board}
             onReveal={handleReveal}
