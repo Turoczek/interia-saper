@@ -16,7 +16,7 @@ export const useLevels = (): LevelsState => {
       .catch((err: unknown) => {
         setState({
           status: 'error',
-          message: err instanceof Error ? err.message : 'Nie udalo sie wczytac plansz',
+          message: err instanceof Error ? err.message : 'Nie udało się wczytać plansz',
         })
       })
   }, [])

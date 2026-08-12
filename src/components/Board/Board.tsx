@@ -7,10 +7,12 @@ type BoardProps = {
   board: BoardType
   onReveal: (index: number) => void
   onFlag: (index: number) => void
+  onChord: (index: number) => void
 }
 
-export const Board = ({ board, onReveal, onFlag }: BoardProps) => {
+export const Board = ({ board, onReveal, onFlag, onChord }: BoardProps) => {
   const gameOver = board.state === 'won' || board.state === 'lost'
+  const lost = board.state === 'lost'
 
   const style = {
     '--board-columns': board.width,
@@ -23,8 +25,10 @@ export const Board = ({ board, onReveal, onFlag }: BoardProps) => {
           key={index}
           cell={cell}
           gameOver={gameOver}
+          lost={lost}
           onReveal={() => onReveal(index)}
           onFlag={() => onFlag(index)}
+          onChord={() => onChord(index)}
         />
       ))}
     </div>

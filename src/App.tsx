@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Board as BoardView } from './components/Board/Board'
 import { useLevels } from './data/useLevels'
 import { createBoard, revealCell, toggleFlag, type Board, type Level } from './logic/board'
+import { chordReveal } from './logic/chord'
 import './App.scss'
 
 function App() {
@@ -39,6 +40,11 @@ function App() {
     setBoard(toggleFlag(board, index))
   }
 
+  const handleChord = (index: number): void => {
+    if (!board) return
+    setBoard(chordReveal(board, index))
+  }
+
   return (
     <main className="app">
       <h1 className="app__title">Saper</h1>
@@ -56,7 +62,7 @@ function App() {
       )}
 
       {levelsState.status === 'ready' && (
-        <nav className="toolbar" aria-label="Wybor poziomu">
+        <nav className="toolbar" aria-label="Wybór poziomu">
           {levelsState.levels.map((level) => (
             <button
               key={level.id}
@@ -83,7 +89,12 @@ function App() {
           <p className="status-message" role="status">
             Stan: {board.state}
           </p>
-          <BoardView board={board} onReveal={handleReveal} onFlag={handleFlag} />
+          <BoardView
+            board={board}
+            onReveal={handleReveal}
+            onFlag={handleFlag}
+            onChord={handleChord}
+          />
         </>
       )}
     </main>

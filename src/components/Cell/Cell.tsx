@@ -5,27 +5,29 @@ import './Cell.scss'
 type CellProps = {
   cell: CellType
   gameOver: boolean
+  lost: boolean
   onReveal: () => void
   onFlag: () => void
+  onChord: () => void
 }
 
-const getContent = (cell: CellType, gameOver: boolean): string => {
-  if (cell.mine && (cell.revealed || gameOver)) return '*'
+const getContent = (cell: CellType, lost: boolean): string => {
+  if (cell.mine && (cell.revealed || lost)) return '*'
   if (!cell.revealed && cell.flagged) return 'F'
   if (cell.revealed && cell.adjacent > 0) return String(cell.adjacent)
   return ''
 }
 
-const getAriaLabel = (cell: CellType, gameOver: boolean): string => {
-  if (cell.mine && (cell.revealed || gameOver)) return 'Mina'
+const getAriaLabel = (cell: CellType, lost: boolean): string => {
+  if (cell.mine && (cell.revealed || lost)) return 'Mina'
   if (!cell.revealed && cell.flagged) return 'Oflagowane pole'
   if (!cell.revealed) return 'Ukryte pole'
-  if (cell.adjacent > 0) return `Pole odkryte, ${cell.adjacent} sasiadujacych min`
+  if (cell.adjacent > 0) return `Pole odkryte, ${cell.adjacent} sąsiadujących min`
   return 'Puste pole'
 }
 
-export const Cell = ({ cell, gameOver, onReveal, onFlag }: CellProps) => {
-  const showMine = cell.mine && (cell.revealed || gameOver)
+export const Cell = ({ cell, gameOver, lost, onReveal, onFlag, onChord }: CellProps) => {
+  const showMine = cell.mine && (cell.revealed || lost)
 
   const className = [
     'cell',
@@ -47,12 +49,12 @@ export const Cell = ({ cell, gameOver, onReveal, onFlag }: CellProps) => {
     <button
       type="button"
       className={className}
-      onClick={onReveal}
+      onClick={cell.revealed ? onChord : onReveal}
       onContextMenu={handleContextMenu}
-      disabled={gameOver || cell.revealed}
-      aria-label={getAriaLabel(cell, gameOver)}
+      disabled={gameOver}
+      aria-label={getAriaLabel(cell, lost)}
     >
-      {getContent(cell, gameOver)}
+      {getContent(cell, lost)}
     </button>
   )
 }
