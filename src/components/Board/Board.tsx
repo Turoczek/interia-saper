@@ -1,0 +1,32 @@
+import type { CSSProperties } from 'react'
+import type { Board as BoardType } from '../../logic/board'
+import { Cell } from '../Cell/Cell'
+import './Board.scss'
+
+type BoardProps = {
+  board: BoardType
+  onReveal: (index: number) => void
+  onFlag: (index: number) => void
+}
+
+export const Board = ({ board, onReveal, onFlag }: BoardProps) => {
+  const gameOver = board.state === 'won' || board.state === 'lost'
+
+  const style = {
+    '--board-columns': board.width,
+  } as CSSProperties
+
+  return (
+    <div className="board" style={style} role="group" aria-label="Plansza sapera">
+      {board.cells.map((cell, index) => (
+        <Cell
+          key={index}
+          cell={cell}
+          gameOver={gameOver}
+          onReveal={() => onReveal(index)}
+          onFlag={() => onFlag(index)}
+        />
+      ))}
+    </div>
+  )
+}

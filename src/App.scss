@@ -1,0 +1,40 @@
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-md);
+  text-align: center;
+
+  &__title {
+    margin: 0 0 var(--space-md);
+  }
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin-bottom: var(--space-md);
+
+  &__level-button,
+  &__restart-button {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-cell-revealed);
+    padding: var(--space-sm);
+    cursor: pointer;
+  }
+
+  &__level-button--active {
+    border-color: var(--color-win);
+    font-weight: bold;
+  }
+}
+
+.status-message {
+  color: var(--color-text);
+
+  &--error {
+    color: var(--color-lose);
+  }
+}

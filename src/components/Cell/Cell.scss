@@ -1,0 +1,66 @@
+.cell {
+  width: var(--size-cell);
+  height: var(--size-cell);
+  border: none;
+  background: var(--color-cell-hidden);
+  font-weight: bold;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  padding: 0;
+
+  &:hover:not(:disabled) {
+    background: var(--color-cell-hidden-hover);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &--revealed {
+    background: var(--color-cell-revealed);
+  }
+
+  &--flagged {
+    background: var(--color-cell-flag);
+  }
+
+  &--mine {
+    background: var(--color-cell-mine);
+  }
+
+  &--exploded {
+    background: var(--color-lose);
+  }
+
+  &--digit-1 {
+    color: var(--color-digit-1);
+  }
+
+  &--digit-2 {
+    color: var(--color-digit-2);
+  }
+
+  &--digit-3 {
+    color: var(--color-digit-3);
+  }
+
+  &--digit-4 {
+    color: var(--color-digit-4);
+  }
+
+  &--digit-5 {
+    color: var(--color-digit-5);
+  }
+
+  &--digit-6 {
+    color: var(--color-digit-6);
+  }
+
+  &--digit-7 {
+    color: var(--color-digit-7);
+  }
+
+  &--digit-8 {
+    color: var(--color-digit-8);
+  }
+}
