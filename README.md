@@ -27,6 +27,8 @@ Plik `saper-plansze.json` ma siedem poziomów i przynajmniej cztery z nich są t
 
 Przy okazji **Łąka** (0 min) nie jest problemem danych, ale ciekawym przypadkiem brzegowym: kaskada z pierwszego kliknięcia odkrywa od razu całą planszę i gra jest wygrana jednym ruchem.
 
+Powyższe to błędy semantyczne w danych, które już mają poprawny kształt (stringi tam gdzie stringi, tablice tam gdzie tablice). Osobna sprawa to sam kształt JSON-a z fetcha, który w TypeScripcie jest `unknown` i nie ma żadnej gwarancji, że backend kiedyś nie zwróci czegoś połamanego strukturalnie (brakujące pole, zły typ). Dlatego `src/data/levels.ts` ma własny, ręcznie napisany type guard, który sprawdza kształt każdego poziomu, zanim cokolwiek trafi do `createBoard` - `createBoard` z założenia dostaje już poprawnie otypowany `Level` i nie musi się tym zajmować. To rozdzielenie (walidacja kształtu w loaderze, sanityzacja semantyki w `board.ts`) wydało mi się czystsze niż wrzucanie wszystkiego do jednej funkcji.
+
 ## 5. Biblioteki
 
 - **React** - wymagany przez zadanie.
@@ -34,3 +36,8 @@ Przy okazji **Łąka** (0 min) nie jest problemem danych, ale ciekawym przypadki
 - **Vite** - tylko do postawienia projektu, zero wpływu na logikę czy runtime.
 - **sass** - SCSS jest wymagany wprost.
 - **vitest** - runner testów, wybrałem go, bo w projekcie postawionym na Vite działa bez dodatkowej konfiguracji transformu TS/ESM.
+
+## 6. Co zrobiłbym dalej
+
+- Zgłaszanie rozjazdu `mineCount` vs rzeczywista liczba min do logów albo monitoringu zamiast po cichu ignorować
+- Testy dla `src/data/levels.ts` (poprawny plik, zły kształt, nieudany fetch)
