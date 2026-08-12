@@ -1,6 +1,18 @@
 import { describe, expect, it } from 'vitest'
 import { createBoard, revealCell, toggleFlag, type Level } from './board'
 
+// The 8 coordinates surrounding the center cell (1,1) of a 3x3 board.
+const neighborsOfCenter: [number, number][] = [
+  [0, 0],
+  [1, 0],
+  [2, 0],
+  [0, 1],
+  [2, 1],
+  [0, 2],
+  [1, 2],
+  [2, 2],
+]
+
 const makeLevel = (overrides: Partial<Level>): Level => ({
   id: 'test',
   name: 'Test',
@@ -37,6 +49,61 @@ describe('createBoard', () => {
 
     expect(board.cells.filter((cell) => cell.mine)).toHaveLength(1)
     expect(board.cells[0].mine).toBe(true)
+  })
+})
+
+describe('liczba sasiadujacych min (0-8)', () => {
+  it.each([0, 1, 2, 3, 4, 5, 6, 7, 8])(
+    'center cell reports adjacent = %i when exactly %i of its 8 neighbors are mines',
+    (count) => {
+      const level = makeLevel({
+        width: 3,
+        height: 3,
+        mineCount: count,
+        mines: neighborsOfCenter.slice(0, count),
+      })
+
+      const board = createBoard(level)
+
+      expect(board.cells[4].mine).toBe(false)
+      expect(board.cells[4].adjacent).toBe(count)
+    },
+  )
+
+  it('a corner cell caps at its real neighbor count (3), not 8', () => {
+    const level = makeLevel({
+      width: 3,
+      height: 3,
+      mineCount: 3,
+      mines: [
+        [1, 0],
+        [0, 1],
+        [1, 1],
+      ],
+    })
+
+    const board = createBoard(level)
+
+    expect(board.cells[0].adjacent).toBe(3)
+  })
+
+  it('an edge cell caps at its real neighbor count (5), not 8', () => {
+    const level = makeLevel({
+      width: 3,
+      height: 3,
+      mineCount: 5,
+      mines: [
+        [0, 0],
+        [2, 0],
+        [0, 1],
+        [1, 1],
+        [2, 1],
+      ],
+    })
+
+    const board = createBoard(level)
+
+    expect(board.cells[1].adjacent).toBe(5)
   })
 })
 
