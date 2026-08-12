@@ -11,16 +11,16 @@ type CellProps = {
   onChord: () => void
 }
 
-const getContent = (cell: CellType, lost: boolean): string => {
-  if (cell.mine && (cell.revealed || lost)) return '*'
-  if (!cell.revealed && cell.flagged) return 'F'
+const getContent = (cell: CellType, showMine: boolean, showFlag: boolean): string => {
+  if (showMine) return '*'
+  if (showFlag) return 'F'
   if (cell.revealed && cell.adjacent > 0) return String(cell.adjacent)
   return ''
 }
 
-const getAriaLabel = (cell: CellType, lost: boolean): string => {
-  if (cell.mine && (cell.revealed || lost)) return 'Mina'
-  if (!cell.revealed && cell.flagged) return 'Oflagowane pole'
+const getAriaLabel = (cell: CellType, showMine: boolean, showFlag: boolean): string => {
+  if (showMine) return 'Mina'
+  if (showFlag) return 'Oflagowane pole'
   if (!cell.revealed) return 'Ukryte pole'
   if (cell.adjacent > 0) return `Pole odkryte, ${cell.adjacent} sąsiadujących min`
   return 'Puste pole'
@@ -28,11 +28,12 @@ const getAriaLabel = (cell: CellType, lost: boolean): string => {
 
 export const Cell = ({ cell, gameOver, lost, onReveal, onFlag, onChord }: CellProps) => {
   const showMine = cell.mine && (cell.revealed || lost)
+  const showFlag = !cell.revealed && cell.flagged
 
   const className = [
     'cell',
     cell.revealed && 'cell--revealed',
-    !cell.revealed && cell.flagged && 'cell--flagged',
+    showFlag && 'cell--flagged',
     showMine && 'cell--mine',
     cell.revealed && cell.mine && 'cell--exploded',
     cell.revealed && !cell.mine && cell.adjacent > 0 && `cell--digit-${cell.adjacent}`,
@@ -51,10 +52,10 @@ export const Cell = ({ cell, gameOver, lost, onReveal, onFlag, onChord }: CellPr
       className={className}
       onClick={cell.revealed ? onChord : onReveal}
       onContextMenu={handleContextMenu}
-      disabled={gameOver}
-      aria-label={getAriaLabel(cell, lost)}
+      aria-disabled={gameOver}
+      aria-label={getAriaLabel(cell, showMine, showFlag)}
     >
-      {getContent(cell, lost)}
+      {getContent(cell, showMine, showFlag)}
     </button>
   )
 }

@@ -11,8 +11,8 @@ type BoardProps = {
 }
 
 export const Board = ({ board, onReveal, onFlag, onChord }: BoardProps) => {
-  const gameOver = board.state === 'won' || board.state === 'lost'
   const lost = board.state === 'lost'
+  const gameOver = board.state === 'won' || lost
 
   const style = {
     '--board-columns': board.width,

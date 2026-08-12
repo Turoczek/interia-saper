@@ -8,11 +8,11 @@
   cursor: pointer;
   padding: 0;
 
-  &:hover:not(:disabled) {
+  &:hover:not([aria-disabled='true']) {
     background: var(--color-cell-hidden-hover);
   }
 
-  &:disabled {
+  &[aria-disabled='true'] {
     cursor: default;
   }
 
